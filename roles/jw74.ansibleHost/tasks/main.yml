@@ -1,0 +1,6 @@
+---
+# tasks file for jw74.ansibleHost
+- name: copy ansible.cfg
+  copy:
+    src: ansible.cfg
+    dest: ~/.ansible.cfg
