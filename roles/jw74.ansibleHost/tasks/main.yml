@@ -27,7 +27,7 @@
 - name: creating sudo privilege for ansiblemaster
   copy:
     src: ansiblemaster.sudo
-    dest: /etc/sudoers.d/ansiblemaster.sudo
+    dest: /etc/sudoers.d/ansiblemaster
     owner: root
     group: root
     mode: 0600
