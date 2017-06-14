@@ -1,6 +1,33 @@
 ---
 # tasks file for jw74.ansibleHost
+- name: create group for ansiblemaster
+  group:
+    name: ansiblegrp
+    gid: 1974
+    state: present
+
+- name: create user for ansible host
+  user:
+    name: ansiblemaster
+    comment: "this ist the user of wich alle playbooks getting startet"
+    uid: 1974
+    group: ansiblegrp 
+    generate_ssh_key: yes
+    ssh_key_bits: 2048
+    ssh_key_file: .ssh/id_rsa
+
 - name: copy ansible.cfg
   copy:
     src: ansible.cfg
-    dest: ~/.ansible.cfg
+    dest: /home/ansiblemaster/.ansible.cfg
+    owner: ansiblemaster
+    group: ansiblegrp
+    mode: 0600
+
+- name: creating sudo privilege for ansiblemaster
+  copy:
+    src: ansiblemaster.sudo
+    dest: /etc/sudoers.d/ansiblemaster.sudo
+    owner: root
+    group: root
+    mode: 0600

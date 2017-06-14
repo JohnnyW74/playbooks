@@ -1,0 +1,11 @@
+---
+# tasks file for jw74.kvmHost
+- name: install KVM and tools
+  apt:
+    name: "{{ item }}"
+    state: latest
+  with_items:
+      - qemu-kvm
+      - virtinst
+      - libvirt-bin
+      - virt-manager 

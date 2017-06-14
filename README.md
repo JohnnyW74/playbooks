@@ -1,7 +1,7 @@
 personal_lab_playbooks
 =========
 
-This is my playground with which I deployed my KVM instances on my laptop to play a little with docker
+This is my playground with which I deploy my KVM instances on my laptop to play a little with docker
 
 Requirements
 ------------

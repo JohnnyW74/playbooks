@@ -1,12 +1,12 @@
-jw74.ansibleHost
+jw74.kvmHost
 =========
 
-This module is for initialising my ansible host.
+Install all i need for working with kvm
 
 Requirements
 ------------
 
-Use this role with root - privilege. For example start the playbook that includes this role with "sudo"
+Working Ubuntu and Ansible
 
 Role Variables
 --------------
