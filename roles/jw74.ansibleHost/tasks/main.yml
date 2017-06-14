@@ -31,3 +31,11 @@
     owner: root
     group: root
     mode: 0600
+
+- name: creating loggingdir
+  file: 
+    path: /home/ansiblemaster/var/log
+    state: directory
+    owner: ansiblemaster
+    group: ansiblegrp
+    mode: 0700
