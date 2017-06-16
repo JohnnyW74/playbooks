@@ -1,0 +1,5 @@
+---
+- hosts: local
+  become: yes
+  roles:
+    - jw74.kvmHost
