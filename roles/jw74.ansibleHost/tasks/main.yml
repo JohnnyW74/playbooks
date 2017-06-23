@@ -32,10 +32,15 @@
     group: root
     mode: 0600
 
-- name: creating loggingdir
+- name: creating needed dirs
   file: 
-    path: /home/ansiblemaster/var/log
+    path: "/home/ansiblemaster/{{ item }}"
     state: directory
     owner: ansiblemaster
     group: ansiblegrp
     mode: 0700
+  with_items:
+    - var
+    - var/log
+    - .ansible
+    - .ansible/tmp 

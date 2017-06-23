@@ -5,4 +5,7 @@
     url: https://cloud.centos.org/centos/7/images/CentOS-7-x86_64-GenericCloud-1705.qcow2
     dest: /home/ansiblemaster/playbook_collection/roles/jw74.downldCentos/files/CentOS-7-x86_64-GenericCloud.qcow2
     checksum: sha256:fabea65fb2848e34be875dee248cece32cf05a9bdb0f29a6e0583535e82e5e91
+    group: ansiblegrp
+    owner: ansiblemaster
+    mode: 0400
 
