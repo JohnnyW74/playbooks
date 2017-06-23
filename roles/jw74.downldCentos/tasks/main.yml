@@ -1,11 +1,20 @@
 ---
 # tasks file for jw74.downldCentos
+- name: creating needed dirs
+  file:
+    path: "/home/ansiblemaster/playbook_collection/{{ item }}"
+    state: directory
+    owner: ansiblemaster
+    group: ansiblegrp
+    mode: 0700
+  with_items:
+  - roles/jw74.downldCentos/files
+
 - name: Download CentOsImage
   get_url:
-    url: https://cloud.centos.org/centos/7/images/CentOS-7-x86_64-GenericCloud-1705.qcow2
-    dest: /home/ansiblemaster/playbook_collection/roles/jw74.downldCentos/files/CentOS-7-x86_64-GenericCloud.qcow2
-    checksum: sha256:fabea65fb2848e34be875dee248cece32cf05a9bdb0f29a6e0583535e82e5e91
+    url: http://ftp.tu-chemnitz.de/pub/linux/centos/7/isos/x86_64/CentOS-7-x86_64-Minimal-1611.iso
+    dest: /home/ansiblemaster/playbook_collection/roles/jw74.downldCentos/files/CentOS-7-x86_64-Minimal-1611.iso
+    checksum: sha256:27bd866242ee058b7a5754e83d8ee8403e216b93d130d800852a96f41c34d86a
     group: ansiblegrp
     owner: ansiblemaster
     mode: 0400
-
