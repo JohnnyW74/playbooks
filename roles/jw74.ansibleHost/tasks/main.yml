@@ -1,17 +1,22 @@
 ---
 # tasks file for jw74.ansibleHost
+- name: installing ansible-lint
+  pip:
+    name: ansible-lint
+  become: true
+
 - name: create group for ansiblemaster
   group:
-    name: ansiblegrp
-    gid: 1974
+    name: "{{ taskAnsibleGroup }}"
+    gid: "{{ taskAnsibleGid }}"
     state: present
 
 - name: create user for ansible host
   user:
-    name: ansiblemaster
+    name: "{{ taskAnsibleMasterUser }}"
     comment: "this ist the user of wich alle playbooks getting startet"
-    uid: 1974
-    group: ansiblegrp 
+    uid: "{{ taskAnsibleMasterUid }}"
+    group: "{{ taskAnsibleGid }}"
     generate_ssh_key: yes
     ssh_key_bits: 2048
     ssh_key_file: .ssh/id_rsa
@@ -19,28 +24,28 @@
 - name: copy ansible.cfg
   copy:
     src: ansible.cfg
-    dest: /home/ansiblemaster/.ansible.cfg
-    owner: ansiblemaster
-    group: ansiblegrp
+    dest: "/home/{{ taskAnsibleMasterUser }}/.ansible.cfg"
+    owner: "{{ taskAnsibleMasterUser }}"
+    group: "{{ taskAnsibleGroup }}"
     mode: 0600
 
 - name: creating sudo privilege for ansiblemaster
   copy:
-    src: ansiblemaster.sudo
-    dest: /etc/sudoers.d/ansiblemaster
+    src: "{{ taskAnsibleMasterUser }}.sudo"
+    dest: "/etc/sudoers.d/{{ taskAnsibleMasterUser }}"
     owner: root
     group: root
     mode: 0600
 
 - name: creating needed dirs
-  file: 
-    path: "/home/ansiblemaster/{{ item }}"
+  file:
+    path: "/home/{{ taskAnsibleMasterUser }}/{{ item }}"
     state: directory
-    owner: ansiblemaster
-    group: ansiblegrp
+    owner: "{{ taskAnsibleMasterUser }}"
+    group: "{{ taskAnsibleGroup }}"
     mode: 0700
   with_items:
     - var
     - var/log
     - .ansible
-    - .ansible/tmp 
+    - .ansible/tmp

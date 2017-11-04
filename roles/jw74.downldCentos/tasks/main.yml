@@ -12,9 +12,9 @@
 
 - name: Download CentOsImage
   get_url:
-    url: http://ftp.tu-chemnitz.de/pub/linux/centos/7/isos/x86_64/CentOS-7-x86_64-Minimal-1611.iso
-    dest: /home/ansiblemaster/playbook_collection/roles/jw74.downldCentos/files/CentOS-7-x86_64-Minimal-1611.iso
-    checksum: sha256:27bd866242ee058b7a5754e83d8ee8403e216b93d130d800852a96f41c34d86a
+    url: "{{ playImageUrl }}"
+    dest: "{{ playImageDest }}"
+    checksum: "{{ playImageSha }}"
     group: ansiblegrp
     owner: ansiblemaster
     mode: 0400

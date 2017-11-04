@@ -1,6 +1,9 @@
 ---
 - hosts: local
   become: yes
+    playImageUrl: http://ftp.tu-chemnitz.de/pub/linux/centos/7/isos/x86_64/CentOS-7-x86_64-Minimal-1611.iso
+    playImageDest: /home/ansiblemaster/playbook_collection/roles/jw74.downldCentos/files/CentOS-7-x86_64-Minimal-1611.iso
+    playImageSha: sha256:27bd866242ee058b7a5754e83d8ee8403e216b93d130d800852a96f41c34d86a
   roles:
     - jw74.kvmHost
     - jw74.downldCentos
