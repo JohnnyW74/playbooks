@@ -1,9 +1,7 @@
 playbook_collection
 =========
 
-This is my playground with which I deploy my KVM instances on my laptop to play a little with docker
-Read my blog-thoughts about the devops-movement: 
-[https://www.tumblr.com/blog/johnnyw74](https://www.tumblr.com/blog/johnnyw74)
+this are my playbooks i used to managed my things
 
 Requirements
 ------------
