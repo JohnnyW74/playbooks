@@ -1,0 +1,25 @@
+---
+- name: creating needed dirs
+  file:
+    path: "/home/{{ roleVarUser }}/ds/{{ item }}"
+    state: directory
+    owner: "{{ roleVarUser }}"
+    group: "{{ roleVarUserGroup }}"
+    mode: 0700
+  with_items:
+    - music
+    - video
+    - photo 
+
+- name: mounting dsFileSystems
+  mount:
+    path: "/home/{{ roleVarUser }}/ds/{{ item }}"
+    src: "{{ roleVarSynologyIp }}:/volume1/{{ item }}/"
+    fstype: nfs4
+    opts: rw,auto,users,bg
+    state: mounted
+  with_items:
+    - music
+    - video
+    - photo
+...

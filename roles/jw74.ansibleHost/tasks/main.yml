@@ -1,9 +1,15 @@
 ---
 # tasks file for jw74.ansibleHost
-- name: installing ansible-lint
+- name: installing ansible-lint, ansible-vault
   pip:
-    name: ansible-lint
+    name: "{{ item }}"
+    state: latest
   become: true
+  with_items:
+    - pip
+    - ansible
+    - ansible-lint
+    - ansible-vault
 
 - name: create group for ansiblemaster
   group:
@@ -49,3 +55,4 @@
     - var/log
     - .ansible
     - .ansible/tmp
+...
