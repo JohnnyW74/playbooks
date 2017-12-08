@@ -1,4 +1,9 @@
 ---
+- name: install needed packages for nfs
+  apt:
+    name: nfs-common
+    state: latest
+
 - name: creating needed dirs
   file:
     path: "/home/{{ roleVarUser }}/ds/{{ item }}"
