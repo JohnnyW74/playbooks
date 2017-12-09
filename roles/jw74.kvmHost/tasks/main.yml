@@ -9,3 +9,12 @@
       - virtinst
       - libvirt-bin
       - virt-manager 
+
+- name: copy my dhcpkonfig
+  template:
+    src: default.xml.j2
+    dest: /etc/libvirt/qemu/networks/default.xml
+    owner: root
+    group: root
+    mode: 0600
+...
