@@ -1,0 +1,65 @@
+---
+- name: create /opt/docker/runtime/consulClusterMember directory
+  file:
+    state: directory
+    path: /opt/docker/runtime/consulClusterMember
+    owner: root
+    group: root
+    mode: 0700
+
+- name: create consulClusterMember directories on the host
+  file:
+    state: directory
+    path: "{{ item }}"
+    owner: "{{ hostConsulUser }}"
+    group: "{{ hostConsulGroup }}"
+    mode: 0700
+  with_items:
+    - /opt/docker/runtime/consulClusterMember/conf
+    - /opt/docker/runtime/consulClusterMember/shared
+    - /opt/docker/runtime/consulClusterMember/data
+
+- name: copy cert, key and ca to /opt/docker/runtime/consulClusterMember/conf
+  copy:
+    src: "{{ item.src }}"
+    dest: "/opt/docker/runtime/consulClusterMember/conf/{{ item.dest }}"
+    owner: "{{ hostConsulUser }}"
+    group: "{{ hostConsulGroup }}"
+    mode: 0600
+    backup: yes
+  with_items:
+    - { src: "{{ hostDockerTlsKey }}", dest: 'key.key' }
+    - { src: "{{ hostDockerTlsCertificate }}", dest: 'cert.cer' }
+    - { src: "{{ hostRootCa }}", dest: 'rootCa.cer' }
+
+- name: "create json config for the consulClusterMember container"
+  template:
+    src: "config.json.j2"
+    dest: "/opt/docker/runtime/consulClusterMember/conf/config.json"
+    owner: "{{ hostConsulUser }}"
+    group: "{{ hostConsulGroup }}"
+    mode: 0600
+    backup: yes
+
+- name: start docker consul container
+  docker_container:
+    name: consulClusterMember
+    image: "{{ groupDockerRegistry }}/consul:latest"
+    state: started
+    restart: yes
+    restart_policy: unless-stopped
+    command: "{{ hostConsulContainerCommand }}"
+    volumes:
+      - /opt/docker/runtime/consulClusterMember/data:/consul/data
+      - /opt/docker/runtime/consulClusterMember/conf:/consul/config
+    ports:
+      - "0.0.0.0:8300:8300"
+      - "0.0.0.0:8301:8301"
+      - "0.0.0.0:8301:8301/udp"
+      - "0.0.0.0:8302:8302"
+      - "0.0.0.0:8302:8302/udp"
+      - "0.0.0.0:8400:8400"
+      - "0.0.0.0:8500:8500"
+      - "0.0.0.0:8600:8600"
+      - "0.0.0.0:8600:8600/udp"
+...

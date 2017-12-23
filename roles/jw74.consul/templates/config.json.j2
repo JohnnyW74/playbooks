@@ -1,0 +1,18 @@
+{
+  "encrypt": "{{ groupConsulGossipEncryptionKey }}",
+  "datacenter": "DC1",
+  "acl_datacenter": "DC1",
+  "acl_default_policy": "allow",
+  "acl_down_policy": "allow",
+  "acl_master_token": "{{ hostAclMasterToken }}",
+  "addresses": {
+    "https": "0.0.0.0"
+  },
+  "ports": { 
+    "http": -1,
+    "https": 8500 
+  },
+  "key_file": "/consul/config/key.key",
+  "cert_file": "/consul/config/cert.cer",
+  "ca_file": "/consul/config/rootCa.cer"
+}
