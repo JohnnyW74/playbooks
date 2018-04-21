@@ -1,0 +1,30 @@
+---
+- name: installing needed yum-packages
+  yum:
+    name: "{{ item }}"
+    state: latest
+  with_items:
+    - yum-utils
+    - device-mapper-persistent-data
+    - lvm2
+
+- name: get repo file
+  get_url:
+    url: https://download.docker.com/linux/centos/docker-ce.repo
+    dest: /etc/yum.repos.d/docker-ce.repo
+    mode: 0644
+    owner: root
+    group: root
+
+- name: install docker-ce
+  yum:
+    name: docker-ce
+    state: latest
+
+
+- name: start docker set him to autostart
+  systemd:
+    name: docker
+    state: restarted
+    enabled: yes
+...

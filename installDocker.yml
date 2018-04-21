@@ -1,0 +1,5 @@
+---
+- hosts: cos1
+  become: yes
+  roles:
+    - jw74.installDocker
