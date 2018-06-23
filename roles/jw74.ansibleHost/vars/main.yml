@@ -1,5 +1,6 @@
 ---
-taskAnsibleGroup: ansiblegrp
+taskAnsibleGroup: ansible
 taskAnsibleGid: 1974
-taskAnsibleMasterUser: ansiblemaster
-taskAnsibleMasterUid: 1974
+taskAnsibleUser: ansible
+taskAnsibleUid: 1974
+...

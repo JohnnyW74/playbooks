@@ -19,9 +19,9 @@
 
 - name: create user for ansible host
   user:
-    name: "{{ taskAnsibleMasterUser }}"
-    comment: "this ist the user of wich alle playbooks getting startet"
-    uid: "{{ taskAnsibleMasterUid }}"
+    name: "{{ taskAnsibleUser }}"
+    comment: "this ist the user of wich alle playbooks getting startet or executed"
+    uid: "{{ taskAnsibleUid }}"
     group: "{{ taskAnsibleGid }}"
     generate_ssh_key: yes
     ssh_key_bits: 2048
@@ -30,24 +30,24 @@
 - name: copy ansible.cfg
   copy:
     src: ansible.cfg
-    dest: "/home/{{ taskAnsibleMasterUser }}/.ansible.cfg"
-    owner: "{{ taskAnsibleMasterUser }}"
+    dest: "/home/{{ taskAnsibleUser }}/.ansible.cfg"
+    owner: "{{ taskAnsibleUser }}"
     group: "{{ taskAnsibleGroup }}"
     mode: 0600
 
-- name: creating sudo privilege for ansiblemaster
+- name: creating sudo privilege for ansible
   copy:
-    src: "{{ taskAnsibleMasterUser }}.sudo"
-    dest: "/etc/sudoers.d/{{ taskAnsibleMasterUser }}"
+    src: "{{ taskAnsibleUser }}.sudo"
+    dest: "/etc/sudoers.d/{{ taskAnsibleUser }}"
     owner: root
     group: root
     mode: 0600
 
 - name: creating needed dirs
   file:
-    path: "/home/{{ taskAnsibleMasterUser }}/{{ item }}"
+    path: "/home/{{ taskAnsibleUser }}/{{ item }}"
     state: directory
-    owner: "{{ taskAnsibleMasterUser }}"
+    owner: "{{ taskAnsibleUser }}"
     group: "{{ taskAnsibleGroup }}"
     mode: 0700
   with_items:

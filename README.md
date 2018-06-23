@@ -13,6 +13,8 @@ Installation
 ------------
 To setup your own ansible host you have to run:
 ```
+sudo apt install python-pip
+pip install ansible
 sudo ansible-playbook setup_ansibleHost.yml -i inventories/hosts.yml
 ```
 
