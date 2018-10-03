@@ -6,7 +6,11 @@ This module is for initialising my ansible host.
 Requirements
 ------------
 
-Use this role with root - privilege. For example start the playbook that includes this role with "sudo"
+For initial setup do the following things on a ubuntu-system >=18.04:
+
+- sudo apt install python3-pip
+- pip3 install ansible
+- ansible-playbook jw74.ansibleHost.yml -i inventories/hosts.yml
 
 Role Variables
 --------------
@@ -21,11 +25,14 @@ tbd
 Example Playbook
 ----------------
 
-Including an example of how to use your role (for instance, with variables passed in as parameters) is always nice for users too:
-
-    - hosts: servers
-      roles:
-         - { role: username.rolename, x: 42 }
+```
+---
+- hosts: local
+  become: yes
+  roles:
+    - jw74.ansibleHost
+...
+```
 
 License
 -------

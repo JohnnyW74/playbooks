@@ -9,6 +9,7 @@
       - virtinst
       - libvirt-bin
       - virt-manager 
+      - python-libvirt 
 
 - name: copy my dhcpkonfig
   template:
