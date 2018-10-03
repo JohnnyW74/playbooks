@@ -16,17 +16,19 @@ tbd
 Dependencies
 ------------
 
-tbd
+After executing this role for the first time you have to reboot, because rightsmanagement for virt-manager
 
 Example Playbook
 ----------------
 
-Including an example of how to use your role (for instance, with variables passed in as parameters) is always nice for users too:
-
-    - hosts: servers
-      roles:
-         - { role: username.rolename, x: 42 }
-
+```
+---
+- hosts: local
+  become: yes
+  roles:
+    - jw74.kvmHost
+...
+```
 License
 -------
 

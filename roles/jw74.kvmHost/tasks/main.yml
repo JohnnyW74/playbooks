@@ -10,6 +10,7 @@
       - libvirt-bin
       - virt-manager 
       - python-libvirt 
+      - libvirt-daemon
 
 - name: copy my dhcpkonfig
   template:
@@ -18,4 +19,10 @@
     owner: root
     group: root
     mode: 0600
+
+- name: Start service libvirtd
+  service:
+    name: libvirtd
+    state: started
+    enabled: yes
 ...
