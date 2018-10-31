@@ -1,0 +1,8 @@
+---
+- name: Download terraform with check (sha256)
+  get_url:
+    url: "{{ roleVarTerraformDownload }}"
+    dest: "{{ hostVarAnsibleUserHome }}/playbooks/roles/jw74.installTerraform/files/{{ roleVarTerraformDownload | basename }}"
+    checksum: "{{ roleVarTerraformDownloadChecksum }}"
+    mode: 0600
+...
