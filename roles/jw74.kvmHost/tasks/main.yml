@@ -2,17 +2,10 @@
 # tasks file for jw74.kvmHost
 - name: install KVM and tools
   apt:
-    name: "{{ item }}"
+    name: ['qemu-kvm','libvirt-daemon', 'virt-manager']
     state: latest
-  with_items:
-      - qemu-kvm
-      - virtinst
-      - libvirt-bin
-      - virt-manager 
-      - python-libvirt 
-      - libvirt-daemon
 
-- name: copy my dhcpkonfig
+- name: generating my dhcpkonfig
   template:
     src: default.xml.j2
     dest: /etc/libvirt/qemu/networks/default.xml

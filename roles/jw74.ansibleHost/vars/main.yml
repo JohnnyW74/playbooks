@@ -3,5 +3,4 @@ roleVarAnsibleGroup: swalker
 roleVarAnsibleGid: 1000
 roleVarAnsibleUser: swalker
 roleVarAnsibleUid: 1000
-roleVarAnsibleUserHome: /home/swalker
 ...
