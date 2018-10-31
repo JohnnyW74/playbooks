@@ -1,6 +1,7 @@
 ---
-taskAnsibleGroup: swalker
-taskAnsibleGid: 1000
-taskAnsibleUser: swalker
-taskAnsibleUid: 1000
+roleVarAnsibleGroup: swalker
+roleVarAnsibleGid: 1000
+roleVarAnsibleUser: swalker
+roleVarAnsibleUid: 1000
+roleVarAnsibleUserHome: /home/swalker
 ...

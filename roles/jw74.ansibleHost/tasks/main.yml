@@ -2,52 +2,58 @@
 # tasks file for jw74.ansibleHost
 - name: installing ansible-lint, ansible-vault
   pip:
-    name: "{{ item }}"
+    name: ['pip', 'ansible', 'ansible-lint', 'ansible-vault']
     state: latest
-  with_items:
-    - pip
-    - ansible
-    - ansible-lint
-    - ansible-vault
 
 - name: create group for ansiblemaster
   group:
-    name: "{{ taskAnsibleGroup }}"
-    gid: "{{ taskAnsibleGid }}"
+    name: "{{ roleVarAnsibleGroup }}"
+    gid: "{{ roleVarAnsibleGid }}"
     state: present
+  become: yes
 
 - name: create user for ansible host
   user:
-    name: "{{ taskAnsibleUser }}"
-    comment: "this ist the user of wich alle playbooks getting startet or executed"
-    uid: "{{ taskAnsibleUid }}"
-    group: "{{ taskAnsibleGid }}"
+    name: "{{ roleVarAnsibleUser }}"
+    comment: "{{ roleVarAnsibleUser }}"
+    uid: "{{ roleVarAnsibleUid }}"
+    group: "{{ roleVarAnsibleGid }}"
     generate_ssh_key: yes
     ssh_key_bits: 2048
     ssh_key_file: .ssh/id_rsa
+  become: yes
 
-- name: copy ansible.cfg
-  copy:
-    src: ansible.cfg
-    dest: "/home/{{ taskAnsibleUser }}/.ansible.cfg"
-    owner: "{{ taskAnsibleUser }}"
-    group: "{{ taskAnsibleGroup }}"
+- name: generate logrotate for ansible
+  template:
+    src: ansible_logrotate.j2
+    dest: /etc/logrotate.d/ansible
+    owner: root
+    group: root
+    mode: 0644
+
+- name: generate ansible.cfg
+  template:
+    src: ansible.j2.cfg
+    dest: "/home/{{ roleVarAnsibleUser }}/.ansible.cfg"
+    owner: "{{ roleVarAnsibleUser }}"
+    group: "{{ roleVarAnsibleGroup }}"
     mode: 0600
 
 - name: creating sudo privilege for ansible
   copy:
-    src: "{{ taskAnsibleUser }}.sudo"
-    dest: "/etc/sudoers.d/{{ taskAnsibleUser }}"
+    src: "{{ roleVarAnsibleUser }}.sudo"
+    dest: "/etc/sudoers.d/{{ roleVarAnsibleUser }}"
     owner: root
     group: root
     mode: 0600
+  become: yes
 
 - name: creating needed dirs
   file:
-    path: "/home/{{ taskAnsibleUser }}/{{ item }}"
+    path: "/home/{{ roleVarAnsibleUser }}/{{ item }}"
     state: directory
-    owner: "{{ taskAnsibleUser }}"
-    group: "{{ taskAnsibleGroup }}"
+    owner: "{{ roleVarAnsibleUser }}"
+    group: "{{ roleVarAnsibleGroup }}"
     mode: 0700
   with_items:
     - var
