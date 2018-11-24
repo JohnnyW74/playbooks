@@ -1,3 +1,4 @@
 ---
 roleVarVmHostName1: cos1
+roleVarsVirshStorageDefaultPool: /win/d/kvm
 ...
