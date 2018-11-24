@@ -1,4 +1,6 @@
 *.swp
 *.retry
-terraform_*_linux_amd64.zip
-terraform-provider-libvirt-*.amd64.tar.gz
+*.zip
+*.tar.gz
+*.iso
+*.qcow2

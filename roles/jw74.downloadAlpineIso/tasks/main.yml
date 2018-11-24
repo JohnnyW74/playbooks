@@ -1,0 +1,16 @@
+---
+- name: Download Alpine.iso
+  get_url:
+    url: "{{ roleVarAlpineDownload }}"
+    dest: "{{ hostVarAnsibleUserHome }}/playbooks/roles/jw74.downloadAlpineIso/files/{{ roleVarAlpineDownload | basename }}"
+    checksum: "{{ roleVarAlpineDownloadChecksum }}"
+    mode: 0600
+
+- name: Convert iso into qcow2
+  command: "qemu-img convert -f raw -O qcow2 {{ hostVarAnsibleUserHome }}/playbooks/roles/jw74.downloadAlpineIso/files/{{ roleVarAlpineDownload | basename }} {{ hostVarAnsibleUserHome }}/playbooks/roles/jw74.downloadAlpineIso/files/{{ roleVarAlpineDownload | basename | regex_replace('.iso', '.qcow2')}}"
+
+- name: deleting iso-file
+  file:
+    path: "{{ hostVarAnsibleUserHome }}/playbooks/roles/jw74.downloadAlpineIso/files/{{ roleVarAlpineDownload | basename }}"
+    state: absent
+...
