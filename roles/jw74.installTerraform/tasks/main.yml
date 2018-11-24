@@ -1,8 +1,38 @@
 ---
-- name: Download terraform with check (sha256)
+- name: creating subdirectory for terraform provider
+  file:
+    path: "{{ hostVarAnsibleUserHome }}/.terraform.d/plugins/"
+    mode: 0700
+    recurse: yes
+    owner: "{{ groupVarAnsibleUser }}"
+    group: "{{ groupVarAnsibleGroup }}"
+
+- name: Download terraform with check (sha256) and terraform-provider-libvirt
   get_url:
-    url: "{{ roleVarTerraformDownload }}"
-    dest: "{{ hostVarAnsibleUserHome }}/playbooks/roles/jw74.installTerraform/files/{{ roleVarTerraformDownload | basename }}"
-    checksum: "{{ roleVarTerraformDownloadChecksum }}"
+    url: "{{ item.src }}"
+    dest: "{{ item.dst }}"
+    checksum: "{{ item.cks | default(omit) }}"
     mode: 0600
+  with_items:
+    - { src: "{{ roleVarTerraformDownload }}", dst: "{{ hostVarAnsibleUserHome }}/playbooks/roles/jw74.installTerraform/files/{{ roleVarTerraformDownload | basename }}", cks: "{{ roleVarTerraformDownloadChecksum }}" }
+    - { src: "{{ roleVarTerraformProviderLibvirtDownload }}", dst: "{{ hostVarAnsibleUserHome }}/playbooks/roles/jw74.installTerraform/files/{{ roleVarTerraformProviderLibvirtDownload | basename }}" }
+
+- name: Extract terraform and terraform-provider-libvirt
+  unarchive:
+    src: "{{ item.src }}"
+    dest: "{{ item.dst }}"
+    mode: 0700
+    owner: "{{ groupVarAnsibleUser }}"
+    group: "{{ groupVarAnsibleGroup }}"
+  with_items:
+    - { src: "{{ hostVarAnsibleUserHome }}/playbooks/roles/jw74.installTerraform/files/{{ roleVarTerraformDownload | basename }}", dst: "{{ hostVarAnsibleUserHome }}/bin/" }
+    - { src: "{{ hostVarAnsibleUserHome }}/playbooks/roles/jw74.installTerraform/files/{{ roleVarTerraformProviderLibvirtDownload | basename }}", dst: "{{ hostVarAnsibleUserHome }}/.terraform.d/plugins/" }
+
+- name: deleting zipfile of terraform and terraform-provider-libvirt
+  file:
+    path: "{{ item }}"
+    state: absent
+  with_items:
+    - "{{ hostVarAnsibleUserHome }}/playbooks/roles/jw74.installTerraform/files/{{ roleVarTerraformDownload | basename }}"
+    - "{{ hostVarAnsibleUserHome }}/playbooks/roles/jw74.installTerraform/files/{{ roleVarTerraformProviderLibvirtDownload | basename }}"
 ...

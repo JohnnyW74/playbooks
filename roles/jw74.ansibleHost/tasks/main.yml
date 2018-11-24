@@ -7,17 +7,17 @@
 
 - name: create group for ansiblemaster
   group:
-    name: "{{ roleVarAnsibleGroup }}"
-    gid: "{{ roleVarAnsibleGid }}"
+    name: "{{ groupVarAnsibleGroup }}"
+    gid: "{{ groupVarAnsibleGid }}"
     state: present
   become: yes
 
 - name: create user for ansible host
   user:
-    name: "{{ roleVarAnsibleUser }}"
-    comment: "{{ roleVarAnsibleUser }}"
-    uid: "{{ roleVarAnsibleUid }}"
-    group: "{{ roleVarAnsibleGid }}"
+    name: "{{ groupVarAnsibleUser }}"
+    comment: "{{ groupVarAnsibleUser }}"
+    uid: "{{ groupVarAnsibleUid }}"
+    group: "{{ groupVarAnsibleGid }}"
     generate_ssh_key: yes
     ssh_key_bits: 2048
     ssh_key_file: .ssh/id_rsa
@@ -34,15 +34,15 @@
 - name: generate ansible.cfg
   template:
     src: ansible.j2.cfg
-    dest: "/home/{{ roleVarAnsibleUser }}/.ansible.cfg"
-    owner: "{{ roleVarAnsibleUser }}"
-    group: "{{ roleVarAnsibleGroup }}"
+    dest: "/home/{{ groupVarAnsibleUser }}/.ansible.cfg"
+    owner: "{{ groupVarAnsibleUser }}"
+    group: "{{ groupVarAnsibleGroup }}"
     mode: 0600
 
 - name: creating sudo privilege for ansible
   copy:
-    src: "{{ roleVarAnsibleUser }}.sudo"
-    dest: "/etc/sudoers.d/{{ roleVarAnsibleUser }}"
+    src: "{{ groupVarAnsibleUser }}.sudo"
+    dest: "/etc/sudoers.d/{{ groupVarAnsibleUser }}"
     owner: root
     group: root
     mode: 0600
@@ -50,10 +50,10 @@
 
 - name: creating needed dirs
   file:
-    path: "/home/{{ roleVarAnsibleUser }}/{{ item }}"
+    path: "/home/{{ groupVarAnsibleUser }}/{{ item }}"
     state: directory
-    owner: "{{ roleVarAnsibleUser }}"
-    group: "{{ roleVarAnsibleGroup }}"
+    owner: "{{ groupVarAnsibleUser }}"
+    group: "{{ groupVarAnsibleGroup }}"
     mode: 0700
   with_items:
     - var
