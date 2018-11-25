@@ -4,16 +4,16 @@
     path: "{{ item }}"
     mode: 0700
     recurse: yes
-    owner: root
-    group: root
+    owner: "{{ groupVarAnsibleUser }}"
+    group: "{{ groupVarAnsibleGroup }}"
   with_items:
-    - /root/.terraform.d/plugins/
-    - /root/bin/
+    - "{{ hostVarAnsibleUserHome }}/.terraform.d/plugins/"
+    - "{{ hostVarAnsibleUserHome }}/root/bin/"
 
 - name: creating temporary file dir
   file:
     path: "{{ hostVarAnsibleUserHome }}/playbooks/roles/jw74.installTerraform/files/"
-    mode: 0700
+    mode: 0775
     recurse: yes
     owner: "{{ groupVarAnsibleUser }}"
     group: "{{ groupVarAnsibleGroup }}"
@@ -35,11 +35,11 @@
     src: "{{ item.src }}"
     dest: "{{ item.dst }}"
     mode: 0700
-    owner: root
-    group: root
+    owner: "{{ groupVarAnsibleUser }}"
+    group: "{{ groupVarAnsibleGroup }}"
   with_items:
-    - { src: "{{ hostVarAnsibleUserHome }}/playbooks/roles/jw74.installTerraform/files/{{ roleVarTerraformDownload | basename }}", dst: /root/bin/ }
-    - { src: "{{ hostVarAnsibleUserHome }}/playbooks/roles/jw74.installTerraform/files/{{ roleVarTerraformProviderLibvirtDownload | basename }}", dst: /root/.terraform.d/plugins/ }
+    - { src: "{{ hostVarAnsibleUserHome }}/playbooks/roles/jw74.installTerraform/files/{{ roleVarTerraformDownload | basename }}", dst: "{{ hostVarAnsibleUserHome }}/bin/" }
+    - { src: "{{ hostVarAnsibleUserHome }}/playbooks/roles/jw74.installTerraform/files/{{ roleVarTerraformProviderLibvirtDownload | basename }}", dst: "{{ hostVarAnsibleUserHome }}/.terraform.d/plugins/" }
 
 - name: deleting zipfile of terraform and terraform-provider-libvirt
   file:
