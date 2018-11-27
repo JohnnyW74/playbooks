@@ -5,7 +5,7 @@
     state: directory
     owner: "{{ groupVarAnsibleUser }}"
     group: "{{ groupVarAnsibleGroup }}"
-    mode: 0700
+    mode: 0755
   tags:
     - alpine
     - ubuntu
@@ -15,7 +15,7 @@
     url: "{{ roleVarAlpineDownload }}"
     dest: "{{ hostVarAnsibleUserHome }}/playbooks/roles/jw74.downloadNodeIso/files/{{ roleVarAlpineDownload | basename }}"
     checksum: "{{ roleVarAlpineDownloadChecksum }}"
-    mode: 0600
+    mode: 0666
   tags: alpine
 
 - name: Download Ubuntu.iso
@@ -23,6 +23,6 @@
     url: "{{ roleVarUbuntuDownload }}"
     dest: "{{ hostVarAnsibleUserHome }}/playbooks/roles/jw74.downloadNodeIso/files/{{ roleVarUbuntuDownload | basename }}"
     checksum: "{{ roleVarUbuntuDownloadChecksum }}"
-    mode: 0600
+    mode: 0666
   tags: ubuntu
 ...
