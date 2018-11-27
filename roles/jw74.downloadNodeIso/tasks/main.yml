@@ -1,0 +1,28 @@
+---
+- name: create download dir
+  file:
+    path: "{{ hostVarAnsibleUserHome }}/playbooks/roles/jw74.downloadNodeIso/files/"
+    state: directory
+    owner: "{{ groupVarAnsibleUser }}"
+    group: "{{ groupVarAnsibleGroup }}"
+    mode: 0700
+  tags:
+    - alpine
+    - ubuntu
+    
+- name: Download Alpine.iso
+  get_url:
+    url: "{{ roleVarAlpineDownload }}"
+    dest: "{{ hostVarAnsibleUserHome }}/playbooks/roles/jw74.downloadNodeIso/files/{{ roleVarAlpineDownload | basename }}"
+    checksum: "{{ roleVarAlpineDownloadChecksum }}"
+    mode: 0600
+  tags: alpine
+
+- name: Download Ubuntu.iso
+  get_url:
+    url: "{{ roleVarUbuntuDownload }}"
+    dest: "{{ hostVarAnsibleUserHome }}/playbooks/roles/jw74.downloadNodeIso/files/{{ roleVarUbuntuDownload | basename }}"
+    checksum: "{{ roleVarUbuntuDownloadChecksum }}"
+    mode: 0600
+  tags: ubuntu
+...

@@ -4,12 +4,7 @@
   apt:
     name: ['qemu-kvm','libvirt-daemon', 'virt-manager']
     state: latest
-
-- name: Start service libvirtd
-  service:
-    name: libvirtd
-    state: started
-    enabled: yes
+  notify: restart libvirtd
 
 - name: creating dir for default storage pool
   file:
@@ -19,20 +14,10 @@
     group: "{{ groupVarAnsibleGroup }}"
     mode: 0700
 
-# the following is quiet buggy, but not on my focus now
-- name: check if default storage pool exists
-  command: virsh pool-list
-  register: poolDefault
-
-- name: create default storage pool
-  command: "virsh pool-define-as --name default --type dir --target {{ roleVarsVirshStorageDefaultPool }}"
-  when: poolDefault.stdout is not search("default")
-
-- name: autostarting pool
-  command: "virsh pool-autostart default"
-  when: poolDefault.stdout is not search("default.*yes")
-
-- name: start pool defaul
-  command: "virsh pool-start default"
-  when: poolDefault.stdout is not search("default *active")
+- name: disable SELinux for qemu, because terraform provider wouldn't work
+  lineinfile:
+    path: /etc/libvirt/qemu.conf
+    regexp: '.*security_driver = ".*"'
+    line: 'security_driver = "none"'
+  notify: restart libvirtd
 ...
