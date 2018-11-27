@@ -1,5 +1,6 @@
 ---
-- hosts: cos1
+- hosts: kvm
   become: yes
   roles:
     - jw74.installDocker
+...

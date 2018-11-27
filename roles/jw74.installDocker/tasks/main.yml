@@ -1,26 +1,19 @@
 ---
-- name: installing needed yum-packages
-  yum:
-    name: "{{ item }}"
-    state: latest
-  with_items:
-    - yum-utils
-    - device-mapper-persistent-data
-    - lvm2
+- name: Add an Apt signing key, will not download if present
+  apt_key:
+    id: 0EBFCD88
+    url: https://download.docker.com/linux/ubuntu/gpg
+    state: present
 
-- name: get repo file
-  get_url:
-    url: https://download.docker.com/linux/centos/docker-ce.repo
-    dest: /etc/yum.repos.d/docker-ce.repo
-    mode: 0644
-    owner: root
-    group: root
+- apt_repository:
+    repo: deb [arch=amd64] https://download.docker.com/linux/ubuntu bionic stable
+    state: present
 
-- name: install docker-ce
-  yum:
+- name: install/update docker-ce
+  apt:
     name: docker-ce
     state: latest
-
+    update_cache: yes
 
 - name: start docker set him to autostart
   systemd:
