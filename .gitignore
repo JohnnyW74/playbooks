@@ -4,3 +4,5 @@
 *.tar.gz
 *.iso
 *.qcow2
+roles/jw74.downloadNodeIso/files/
+roles/setup_rke_cluster/files/id_rsa.pub
