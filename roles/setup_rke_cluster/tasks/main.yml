@@ -1,11 +1,4 @@
 ---
-#- name: install nfs package
-#  package: 
-#    name: nfs-utils
-#    state: present
-#  become: true
-#  when: "'workers' in group_names"
-
 - name: setup rke
   copy:
     src: rke_linux-amd64
@@ -25,18 +18,6 @@
     src: cluster.j2.yml
     dest: "{{docker_service_dir}}/rke/cluster.yml"
   when: "'k8s-master' in group_names"
-
-#- name: template deployment addon manifests  
-#  template:
-#    src: "{{item}}"
-#    dest: "{{docker_service_dir}}/rke/{{item | regex_replace('\\.j2','')}}"
-#  loop: 
-#    - blackbox-exporter.yml.j2
-#    - kube-state-metrics.yml.j2
-#    - prometheus.yml.j2
-#    - dnsutils.yml.j2
-#    - node-exporter.yml.j2
-#  when: "'rancher' in group_names"
 
 - name: Create a 2048-bit SSH key for user root
   user:
@@ -66,6 +47,7 @@
     src: /root/.ssh/id_rsa.pub
     dest: "{{ role_path }}/files/"
     flat: yes
+  when: "'k8s-master' in group_names"
 
 - name: ssh-copy-id
   authorized_key:
