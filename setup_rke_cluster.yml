@@ -1,0 +1,3 @@
+- hosts: kvm
+  roles:
+    - setup_rke_cluster
