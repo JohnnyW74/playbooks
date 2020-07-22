@@ -8,10 +8,9 @@
 
 - name: creating dir for default storage pool
   file:
-    path: "{{ roleVarsVirshStorageDefaultPool }}"
+    path: "{{ ansible_user_dir }}/storage_pool/"
     state: directory
-    owner: "{{ groupVarAnsibleUser }}"
-    group: "{{ groupVarAnsibleGroup }}"
+    owner: "{{ ansible_user_id }}"
     mode: 0700
 
 - name: disable SELinux for qemu, because terraform provider wouldn't work
