@@ -6,10 +6,9 @@
 
 - name: creating needed dirs
   file:
-    path: "/home/{{ roleVarUser }}/ds/{{ item }}"
+    path: "/home/{{ ansible_user_id }}/ds/{{ item }}"
     state: directory
     owner: "{{ roleVarUser }}"
-    group: "{{ roleVarUserGroup }}"
     mode: 0700
   with_items:
     - music
@@ -18,7 +17,7 @@
 
 - name: mounting dsFileSystems
   mount:
-    path: "/home/{{ roleVarUser }}/ds/{{ item }}"
+    path: "/home/{{ ansible_user_id }}/ds/{{ item }}"
     src: "{{ roleVarSynologyIp }}:/volume1/{{ item }}/"
     fstype: nfs4
     opts: rw,auto,users,bg

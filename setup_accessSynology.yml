@@ -1,5 +1,5 @@
 ---
 - hosts: local
-  become: yes
+  become: no
   roles:
     - jw74.synology
