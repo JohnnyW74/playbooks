@@ -1,17 +1,39 @@
 ---
+- name: remove old docker
+  apt:
+    pkg:
+      - docker
+      - docker-engine
+      - docker.io
+      - containerd
+      - runc
+    state: absent
+
+- name: install prerequisits
+  apt:
+    pkg:
+      - apt-transport-https
+      - ca-certificates
+      - curl
+      - gnupg
+      - lsb-release
+    state: latest
+
 - name: Add an Apt signing key, will not download if present
   apt_key:
-    id: 0EBFCD88
     url: https://download.docker.com/linux/ubuntu/gpg
     state: present
 
 - apt_repository:
-    repo: deb [arch=amd64] https://download.docker.com/linux/ubuntu focal stable
+    repo: deb [arch=amd64] https://download.docker.com/{{ ansible_system | lower }}/{{ ansible_distribution | lower }} {{ ansible_distribution_release }} stable
     state: present
 
 - name: install/update docker-ce
   apt:
-    name: docker-ce
+    pkg:
+      - docker-ce
+      - docker-ce-cli
+      - containerd.io
     state: latest
     update_cache: yes
 
@@ -23,6 +45,6 @@
 
 - name: pip install docker
   pip:
-    name: [ "docker", "docker-compose" ]
+    name: docker-compose
     state: latest
 ...

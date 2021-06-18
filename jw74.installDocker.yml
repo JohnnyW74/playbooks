@@ -1,5 +1,5 @@
 ---
-- hosts: kvm
+- hosts: kvm, local
   become: yes
   roles:
     - jw74.installDocker
