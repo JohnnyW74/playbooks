@@ -1,0 +1,8 @@
+---
+# tasks file for jw74.commonBenefitsWorkstation
+- name: install/update real vim
+  apt:
+    name: vim
+    state: latest
+    update_cache: yes
+...
