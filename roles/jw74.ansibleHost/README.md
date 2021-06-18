@@ -10,7 +10,7 @@ For initial setup do the following things on a ubuntu-system >=18.04:
 
 - sudo apt install python3-pip
 - pip3 install ansible
-- ansible-playbook jw74.ansibleHost.yml -i inventories/hosts.yml
+- ansible-playbook jw74.ansibleHost.yml -i inventory.yml
 
 Role Variables
 --------------
