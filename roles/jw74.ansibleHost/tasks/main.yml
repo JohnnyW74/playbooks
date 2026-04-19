@@ -4,7 +4,7 @@
   ansible.builtin.pip:
     name: ['pip', 'ansible', 'ansible-lint', 'ansible-vault']
     state: latest
-    virtualenv: /home/{{ ansible_user_id }}/venv
+    virtualenv: /home/{{ ansible_facts['user_id'] }}/venv
 
 - name: generate logrotate, ansible.cfg, sudo
   template:
@@ -13,29 +13,34 @@
     owner: "{{ item.user }}"
     mode: 0600
   become: yes
-  with_items:
+  loop:
     - { src: ansible_logrotate.j2, dst: /etc/logrotate.d/ansible, user: root }
     - { src: ansible.j2.cfg, dst: "{{ ansible_facts['user_dir'] }}/.ansible.cfg", user: "{{ ansible_facts['user_id'] }}" }
     - { src: user.j2.sudo, dst: "/etc/sudoers.d/{{ ansible_facts['user_id'] }}", user: root }
 
 - name: creating needed dirs
-  file:
+  ansible.builtin.file:
     path: "{{ ansible_facts['user_dir'] }}/{{ item }}"
     state: directory
     owner: "{{ ansible_facts['user_id'] }}"
     mode: 0700
-  with_items:
+  loop:
     - var
     - var/log
     - .ansible
     - .ansible/tmp
 
+- name: Check if the SSH key exists (Stat check)
+  ansible.builtin.stat:
+    path: "{{ ansible_facts['user_dir'] }}/.ssh/id_ed25519"
+  register: ssh_key_status 
+
 - name: Create a 4096-ed25519-bit SSH key for user "{{ ansible_facts['user_id'] }}"
-  user:
+  ansible.builtin.user:
     name: "{{ ansible_facts['user_id'] }}"
     generate_ssh_key: yes
     ssh_key_type: Ed25519 
-    ssh_key_bits: 4096
     ssh_key_file: .ssh/id_ed25519
+  when: not ssh_key_status.stat.exists
 
 ...
